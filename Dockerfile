@@ -66,6 +66,16 @@ RUN java -Djarmode=layertools -jar target/app.jar extract --destination target/e
 # most recent version of that tag when you build your Dockerfile.
 # If reproducibility is important, consider using a specific digest SHA, like
 # eclipse-temurin@sha256:99cede493dfd88720b610eb8077c8688d3cca50003d76d1d539b0efc8cca72b4.
+FROM extract as development
+WORKDIR /build
+RUN cp -r /build/target/extracted/dependencies/. ./
+RUN cp -r /build/target/extracted/spring-boot-loader/. ./
+RUN cp -r /build/target/extracted/snapshot-dependencies/. ./
+RUN cp -r /build/target/extracted/application/. ./
+ENV JAVA_TOOL_OPTIONS -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000
+CMD [ "java", "-Dspring.profiles.active=postgres", "org.springframework.boot.loader.launch.JarLauncher" ]
+
+
 FROM eclipse-temurin:23-jdk-noble AS final
 
 # Create a non-privileged user that the app will run under.

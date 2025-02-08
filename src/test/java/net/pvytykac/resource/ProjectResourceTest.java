@@ -1,14 +1,20 @@
 package net.pvytykac.resource;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import net.pvytykac.db.repo.ProjectRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.shaded.com.google.common.collect.ImmutableList;
 
+import java.util.UUID;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,6 +29,9 @@ public class ProjectResourceTest {
 
     private final MockMvc mvc;
 
+    @MockitoBean
+    private ProjectRepository repository;
+
     @Autowired
     public ProjectResourceTest(MockMvc mvc) {
         this.mvc = mvc;
@@ -30,17 +39,22 @@ public class ProjectResourceTest {
 
     @Test
     void listProjects() throws Exception {
-        var json = new JSONObject()
-                .put("projects", new JSONArray()
-                        .put(new JSONObject()
-                                .put("id", 1)
-                                .put("name", "Project A"))
-                        .put(new JSONObject()
-                                .put("id", 2)
-                                .put("name", "Project B")));
+        when(repository.findAll()).thenReturn(ImmutableList.of());
 
         mvc.perform(get("/v1/projects").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().json(json.toString()));
+                .andExpect(content().json("[]"));
+
+        verify(repository).findAll();
+    }
+
+    @Test
+    void deleteProjects() throws Exception {
+        var id = UUID.randomUUID().toString();
+
+        mvc.perform(delete("/v1/projects/" + id))
+                .andExpect(status().isNoContent());
+
+        verify(repository).deleteById(id);
     }
 }
