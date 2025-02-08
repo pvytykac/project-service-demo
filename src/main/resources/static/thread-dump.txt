@@ -1,0 +1,211 @@
+
+"main" #1 [7] prio=5 os_prio=0 cpu=619948.57ms elapsed=633.66s tid=0x00007fa4c402a1e0 nid=7 runnable  [0x00007fa4cbfec000]
+   java.lang.Thread.State: RUNNABLE
+	at java.io.UnixFileSystem.getBooleanAttributes0(java.base@23.0.2/Native Method)
+	at java.io.UnixFileSystem.hasBooleanAttributes(java.base@23.0.2/UnixFileSystem.java:179)
+	at java.io.File.isDirectory(java.base@23.0.2/File.java:867)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:117)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.processDirectory(ExplodedArchiveDescriptor.java:118)
+	at org.hibernate.boot.archive.internal.ExplodedArchiveDescriptor.visitArchive(ExplodedArchiveDescriptor.java:54)
+	at org.hibernate.boot.archive.scan.spi.AbstractScannerImpl.scan(AbstractScannerImpl.java:48)
+	at org.hibernate.boot.model.process.internal.ScanningCoordinator.coordinateScan(ScanningCoordinator.java:73)
+	at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.prepare(MetadataBuildingProcess.java:151)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.<init>(EntityManagerFactoryBuilderImpl.java:295)
+	at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.<init>(EntityManagerFactoryBuilderImpl.java:197)
+	at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory(SpringHibernateJpaPersistenceProvider.java:54)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.createNativeEntityManagerFactory(LocalContainerEntityManagerFactoryBean.java:390)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.buildNativeEntityManagerFactory(AbstractEntityManagerFactoryBean.java:419)
+	at org.springframework.orm.jpa.AbstractEntityManagerFactoryBean.afterPropertiesSet(AbstractEntityManagerFactoryBean.java:400)
+	at org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean.afterPropertiesSet(LocalContainerEntityManagerFactoryBean.java:366)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1859)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1808)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:601)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:523)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336)
+	at org.springframework.beans.factory.support.AbstractBeanFactory$$Lambda/0x00007fa46c23e5a8.getObject(Unknown Source)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:307)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:970)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:627)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:752)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:439)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:318)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1361)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1350)
+	at net.pvytykac.Application.main(Application.java:12)
+	at java.lang.invoke.LambdaForm$DMH/0x00007fa46c005000.invokeStatic(java.base@23.0.2/LambdaForm$DMH)
+	at java.lang.invoke.LambdaForm$MH/0x00007fa46c008400.invoke(java.base@23.0.2/LambdaForm$MH)
+	at java.lang.invoke.Invokers$Holder.invokeExact_MT(java.base@23.0.2/Invokers$Holder)
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invokeImpl(java.base@23.0.2/DirectMethodHandleAccessor.java:154)
+	at jdk.internal.reflect.DirectMethodHandleAccessor.invoke(java.base@23.0.2/DirectMethodHandleAccessor.java:103)
+	at java.lang.reflect.Method.invoke(java.base@23.0.2/Method.java:580)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:102)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64)
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40)
+
+"Reference Handler" #4 [10] daemon prio=10 os_prio=0 cpu=3.77ms elapsed=633.65s tid=0x00007fa4c40708d0 nid=10 waiting on condition  [0x00007fa4cb5e5000]
+   java.lang.Thread.State: RUNNABLE
+	at java.lang.ref.Reference.waitForReferencePendingList(java.base@23.0.2/Native Method)
+	at java.lang.ref.Reference.processPendingReferences(java.base@23.0.2/Reference.java:246)
+	at java.lang.ref.Reference$ReferenceHandler.run(java.base@23.0.2/Reference.java:208)
+
+"Finalizer" #5 [11] daemon prio=8 os_prio=0 cpu=0.18ms elapsed=633.65s tid=0x00007fa4c4071e10 nid=11 in Object.wait()  [0x00007fa4cb4e4000]
+   java.lang.Thread.State: WAITING (on object monitor)
+	at java.lang.Object.wait0(java.base@23.0.2/Native Method)
+	- waiting on <0x00000000f5897330> (a java.lang.ref.NativeReferenceQueue$Lock)
+	at java.lang.Object.wait(java.base@23.0.2/Object.java:378)
+	at java.lang.Object.wait(java.base@23.0.2/Object.java:352)
+	at java.lang.ref.NativeReferenceQueue.await(java.base@23.0.2/NativeReferenceQueue.java:48)
+	at java.lang.ref.ReferenceQueue.remove0(java.base@23.0.2/ReferenceQueue.java:166)
+	at java.lang.ref.NativeReferenceQueue.remove(java.base@23.0.2/NativeReferenceQueue.java:89)
+	- locked <0x00000000f5897330> (a java.lang.ref.NativeReferenceQueue$Lock)
+	at java.lang.ref.Finalizer$FinalizerThread.run(java.base@23.0.2/Finalizer.java:173)
+
+"Signal Dispatcher" #6 [12] daemon prio=9 os_prio=0 cpu=0.35ms elapsed=633.65s tid=0x00007fa4c4073710 nid=12 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Service Thread" #7 [13] daemon prio=9 os_prio=0 cpu=13.64ms elapsed=633.65s tid=0x00007fa4c4074d20 nid=13 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Monitor Deflation Thread" #8 [14] daemon prio=9 os_prio=0 cpu=44.93ms elapsed=633.65s tid=0x00007fa4c4076290 nid=14 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"C2 CompilerThread0" #9 [15] daemon prio=9 os_prio=0 cpu=2607.94ms elapsed=633.65s tid=0x00007fa4c4077d80 nid=15 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"C1 CompilerThread0" #10 [16] daemon prio=9 os_prio=0 cpu=1286.23ms elapsed=633.65s tid=0x00007fa4c4079460 nid=16 waiting on condition  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   No compile task
+
+"Notification Thread" #11 [17] daemon prio=9 os_prio=0 cpu=0.10ms elapsed=633.64s tid=0x00007fa4c4095910 nid=17 runnable  [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+
+"Common-Cleaner" #12 [18] daemon prio=8 os_prio=0 cpu=4.20ms elapsed=633.64s tid=0x00007fa4c4098170 nid=18 waiting on condition  [0x00007fa4caccd000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@23.0.2/Native Method)
+	- parking to wait for  <0x00000000f5897400> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@23.0.2/LockSupport.java:269)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(java.base@23.0.2/AbstractQueuedSynchronizer.java:1852)
+	at java.lang.ref.ReferenceQueue.await(java.base@23.0.2/ReferenceQueue.java:79)
+	at java.lang.ref.ReferenceQueue.remove0(java.base@23.0.2/ReferenceQueue.java:151)
+	at java.lang.ref.ReferenceQueue.remove(java.base@23.0.2/ReferenceQueue.java:229)
+	at jdk.internal.ref.CleanerImpl.run(java.base@23.0.2/CleanerImpl.java:140)
+	at java.lang.Thread.runWith(java.base@23.0.2/Thread.java:1588)
+	at java.lang.Thread.run(java.base@23.0.2/Thread.java:1575)
+	at jdk.internal.misc.InnocuousThread.run(java.base@23.0.2/InnocuousThread.java:186)
+
+"Catalina-utility-1" #17 [21] prio=1 os_prio=0 cpu=14.65ms elapsed=628.90s tid=0x00007fa4c4e15390 nid=21 waiting on condition  [0x00007fa4cab8b000]
+   java.lang.Thread.State: TIMED_WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@23.0.2/Native Method)
+	- parking to wait for  <0x00000000f66fe588> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.parkNanos(java.base@23.0.2/LockSupport.java:269)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(java.base@23.0.2/AbstractQueuedSynchronizer.java:1763)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@23.0.2/ScheduledThreadPoolExecutor.java:1182)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@23.0.2/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@23.0.2/ThreadPoolExecutor.java:1070)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@23.0.2/ThreadPoolExecutor.java:1130)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@23.0.2/ThreadPoolExecutor.java:642)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.lang.Thread.runWith(java.base@23.0.2/Thread.java:1588)
+	at java.lang.Thread.run(java.base@23.0.2/Thread.java:1575)
+
+"Catalina-utility-2" #18 [22] prio=1 os_prio=0 cpu=16.66ms elapsed=628.90s tid=0x00007fa430338e80 nid=22 waiting on condition  [0x00007fa4caa8a000]
+   java.lang.Thread.State: WAITING (parking)
+	at jdk.internal.misc.Unsafe.park(java.base@23.0.2/Native Method)
+	- parking to wait for  <0x00000000f66fe588> (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)
+	at java.util.concurrent.locks.LockSupport.park(java.base@23.0.2/LockSupport.java:371)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionNode.block(java.base@23.0.2/AbstractQueuedSynchronizer.java:519)
+	at java.util.concurrent.ForkJoinPool.unmanagedBlock(java.base@23.0.2/ForkJoinPool.java:4023)
+	at java.util.concurrent.ForkJoinPool.managedBlock(java.base@23.0.2/ForkJoinPool.java:3969)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(java.base@23.0.2/AbstractQueuedSynchronizer.java:1712)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@23.0.2/ScheduledThreadPoolExecutor.java:1177)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(java.base@23.0.2/ScheduledThreadPoolExecutor.java:899)
+	at java.util.concurrent.ThreadPoolExecutor.getTask(java.base@23.0.2/ThreadPoolExecutor.java:1070)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(java.base@23.0.2/ThreadPoolExecutor.java:1130)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(java.base@23.0.2/ThreadPoolExecutor.java:642)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.lang.Thread.runWith(java.base@23.0.2/Thread.java:1588)
+	at java.lang.Thread.run(java.base@23.0.2/Thread.java:1575)
+
+"container-0" #19 [23] prio=5 os_prio=0 cpu=2.21ms elapsed=628.89s tid=0x00007fa4c4e166e0 nid=23 waiting on condition  [0x00007fa4ca989000]
+   java.lang.Thread.State: TIMED_WAITING (sleeping)
+	at java.lang.Thread.sleepNanos0(java.base@23.0.2/Native Method)
+	at java.lang.Thread.sleepNanos(java.base@23.0.2/Thread.java:496)
+	at java.lang.Thread.sleep(java.base@23.0.2/Thread.java:527)
+	at org.apache.catalina.core.StandardServer.await(StandardServer.java:520)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer$1.run(TomcatWebServer.java:219)
+
+"VM Thread" os_prio=0 cpu=491.18ms elapsed=633.65s tid=0x00007fa4c4067630 nid=9 runnable
+
+"VM Periodic Task Thread" os_prio=0 cpu=284.25ms elapsed=633.66s tid=0x00007fa4c4056d80 nid=8 waiting on condition
+
+JNI global refs: 8, weak refs: 0
+
+Heap
+ def new generation   total 10304K, used 8567K [0x00000000f0000000, 0x00000000f0b20000, 0x00000000f5550000)
+  eden space 9216K,  91% used [0x00000000f0000000, 0x00000000f0843d38, 0x00000000f0900000)
+  from space 1088K,   9% used [0x00000000f0a10000, 0x00000000f0a29fd0, 0x00000000f0b20000)
+  to   space 1088K,   0% used [0x00000000f0900000, 0x00000000f0900000, 0x00000000f0a10000)
+ tenured generation   total 22720K, used 20152K [0x00000000f5550000, 0x00000000f6b80000, 0x0000000100000000)
+   the space 22720K,  88% used [0x00000000f5550000, 0x00000000f68fe050, 0x00000000f6b80000)
+ Metaspace       used 35119K, committed 35712K, reserved 1114112K
+  class space    used 4581K, committed 4864K, reserved 1048576K
+

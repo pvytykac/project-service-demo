@@ -1,6 +1,6 @@
 ### Running via Docker Compose:
 
-docker run: docker compose up -d
+`docker compose up -d`
 
 starts 2 containers:
 * postgres: `postgres:postgres@db:5432/postgres`
@@ -8,14 +8,33 @@ starts 2 containers:
   * server - `server:8080`
   * remote debug - port `8000`
 
+### Kubernetes
+
+Prerequisites:
+* [Minikube](https://minikube.sigs.k8s.io/docs/start) 
+* configure docker registry access 
+  ```
+  kubectl create secret docker-registry docker-credentials \
+        --docker-server={your registry url} \
+        --docker-username={your username}} \
+        --docker-password={your token}
+  ```
+
+Postgres deployment: `kubectl apply .\kube\postgres-deployment.yaml`
+
+Backend deployment: `kubectl apply .\kube\project-service-deployment.yaml`
+
+Frontend deployment: `kubectl apply .\kube\frontend-deployment.yaml`
+
 ### Running locally:
 
-* requires the postgres container above to be running
+* requires either of the above postgres containers to be running
+  * use localhost:5432 + port forwarding `kubectl port-forward postgres-0 5432`
+  * or the ip+port returned by `minikube service postgres --url`
 * requires env properties to be set
   ```
-  env POSTGRES_URL=jdbc:postgresql://localhost:5432/postgres
+  env POSTGRES_SERVICE_HOST=localhost
+  env POSTGRES_SERVICE_PORT=5432
   env APPLICATION_PORT=9090
   ```
 * run the main class
-  
-

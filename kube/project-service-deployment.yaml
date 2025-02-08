@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: project-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project-service
+  template:
+    metadata:
+      labels:
+        app: project-service
+    spec:
+      containers:
+      - name: project-service
+        image: pvytykac/project-service:0.0.2
+        imagePullPolicy: Always
+        # todo: fix the garbage collection death spiral on boot - see src/main/resources/static/thread-dump.txt
+        resources:
+          requests:
+            memory: 512Mi
+            cpu: 1000m
+          limits:
+            memory: 1024Mi
+            cpu: 2000m
+        env:
+        - name: "APPLICATION_PORT"
+          value: "8080"
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 15
+          failureThreshold: 40
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 15
+          failureThreshold: 40
+      imagePullSecrets:
+      - name: docker-credentials
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: project-service
+  labels:
+    app: project-service
+spec:
+  selector:
+    app: project-service
+  type: LoadBalancer
+  ports:
+    - name: project-service
+      port: 80
+      targetPort: 8080
+      protocol: TCP

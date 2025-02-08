@@ -10,7 +10,8 @@ services:
       db:
         condition: service_healthy
     environment:
-      - POSTGRES_URL=jdbc:postgresql://db:5432/postgres
+      - POSTGRES_SERVICE_HOST=db
+      - POSTGRES_SERVICE_PORT=5432
       - APPLICATION_PORT=8080
   db:
     image: postgres:17.2
