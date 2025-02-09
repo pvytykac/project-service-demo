@@ -13,13 +13,7 @@
 					"name": "/v1/groups",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "http://localhost:{{backend-port}}/v1/groups",
 							"protocol": "http",
@@ -39,13 +33,7 @@
 					"name": "/v1/groups/{id}",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "http://localhost:{{backend-port}}/v1/groups/a9640c5d-1bbf-40f7-95e4-7af068a64ada",
 							"protocol": "http",
@@ -66,16 +54,10 @@
 					"name": "/v1/groups/{id}",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Group D\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Group A\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -101,49 +83,7 @@
 					"name": "/v1/groups/{id}",
 					"request": {
 						"method": "PUT",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Group C - Edited\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:{{backend-port}}/v1/groups/76076109-67a7-4be5-b8b1-6259988835c7",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "{{backend-port}}",
-							"path": [
-								"v1",
-								"groups",
-								"76076109-67a7-4be5-b8b1-6259988835c7"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "/v1/groups/{id}",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"name\": \"Group A\"\r\n}",
@@ -154,7 +94,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:{{backend-port}}/v1/groups/80488229-f17a-479f-be37-5c3bea0ac1c5",
+							"raw": "http://localhost:{{backend-port}}/v1/groups/a9640c5d-1bbf-40f7-95e4-7af068a64ada",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -163,7 +103,28 @@
 							"path": [
 								"v1",
 								"groups",
-								"80488229-f17a-479f-be37-5c3bea0ac1c5"
+								"a9640c5d-1bbf-40f7-95e4-7af068a64ada"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/groups/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{backend-port}}/v1/groups/bb9e836e-86bb-45b2-9abf-948ad3c1aa0d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{backend-port}}",
+							"path": [
+								"v1",
+								"groups",
+								"bb9e836e-86bb-45b2-9abf-948ad3c1aa0d"
 							]
 						}
 					},
@@ -178,13 +139,7 @@
 					"name": "/v1/projects",
 					"request": {
 						"method": "GET",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "http://localhost:{{backend-port}}/v1/projects",
 							"protocol": "http",
@@ -204,16 +159,10 @@
 					"name": "/v1/projects",
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"My Project J\",\r\n    \"status\": \"WARN\",\r\n    \"group\": {\r\n        \"id\": \"c9a20a28-c7e6-4820-a678-f3d5544fc97d\",\r\n        \"name\": \"My Group 3 - Edited via POST /projects\"\r\n    },\r\n    \"statusOverride\": \"OK\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Project A\",\r\n    \"reportedStatus\": \"WARN\",\r\n    \"group\": {\r\n        \"name\": \"Group A\"\r\n    },\r\n    \"statusOverride\": \"OK\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -238,17 +187,11 @@
 				{
 					"name": "/v1/projects/{id}",
 					"request": {
-						"method": "PATCH",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"method": "PUT",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project F\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Project A\",\r\n    \"group\": {\r\n        \"id\": \"b9cf131b-4348-4c0c-9b0e-839ee8321b3c\",\r\n        \"name\": \"Group A\"\r\n    },\r\n    \"reportedStatus\": \"WARN\",\r\n    \"statusOverride\": \"OK\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -256,7 +199,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:{{backend-port}}/v1/projects/8eb9fa50-fa31-498e-aa91-4994e726e2b5",
+							"raw": "http://localhost:{{backend-port}}/v1/projects/ab0b3762-6d31-496e-b715-9eb9ad1bb5de",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -265,7 +208,7 @@
 							"path": [
 								"v1",
 								"projects",
-								"8eb9fa50-fa31-498e-aa91-4994e726e2b5"
+								"ab0b3762-6d31-496e-b715-9eb9ad1bb5de"
 							]
 						}
 					},
@@ -275,15 +218,9 @@
 					"name": "/v1/projects/{id}",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "Basic cGFseTpwQSQkdzByZA==",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"url": {
-							"raw": "http://localhost:{{backend-port}}/v1/projects/09f4fb42-c762-43e6-8071-bdcc7859e5a8",
+							"raw": "http://localhost:{{backend-port}}/v1/projects/ab0b3762-6d31-496e-b715-9eb9ad1bb5de",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -292,7 +229,7 @@
 							"path": [
 								"v1",
 								"projects",
-								"09f4fb42-c762-43e6-8071-bdcc7859e5a8"
+								"ab0b3762-6d31-496e-b715-9eb9ad1bb5de"
 							]
 						}
 					},
