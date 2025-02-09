@@ -1,3 +1,5 @@
+A small demo project to (hopefully) show I can still kinda code after taking a break 
+
 ### Running via Docker Compose:
 
 `docker compose up -d`
@@ -38,3 +40,11 @@ Frontend deployment: `kubectl apply .\kube\frontend-deployment.yaml`
   env APPLICATION_PORT=9090
   ```
 * run the main class
+
+### Testing
+
+You can import the postman collection from `<root>/project-service.postman_collection`
+The only env parameter is the server port, by default:
+* 8080 when running via docker compose
+* Whatever you put as your APPLICATION_PORT env property in case of local runs
+* Whatever port you tunnel through in case of minikube
