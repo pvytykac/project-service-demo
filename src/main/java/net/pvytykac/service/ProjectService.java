@@ -1,6 +1,5 @@
 package net.pvytykac.service;
 
-import com.github.fge.jsonpatch.JsonPatch;
 import net.pvytykac.db.Project;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 
@@ -15,6 +14,6 @@ public interface ProjectService {
 
     List<Project> listProjects();
     Project createProject(ProjectRepresentation project);
-    Optional<Project> updateProject(String id, JsonPatch update);
+    Optional<Project> updateProject(String id, ProjectRepresentation project);
     Optional<Project> deleteProject(String id);
 }

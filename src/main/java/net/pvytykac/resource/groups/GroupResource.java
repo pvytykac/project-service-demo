@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * @author Paly
@@ -40,12 +40,18 @@ public class GroupResource {
 
     @GetMapping
     public GenericListRepresentation<GroupRepresentation> listGroups() {
-        return new GenericListRepresentation<>(List.of());
+        log.debug("listing groups");
+
+        return new GenericListRepresentation<>(repository.findAll().stream()
+                .map(GroupResource::entityToRepresentation)
+                .toList());
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GroupRepresentation postGroup(@RequestBody @Valid @NotNull GroupRepresentation payload) {
+        log.info("creating group '{}'", payload.getName());
+
         Group saved = repository.save(representationToEntity(null, payload));
 
         return entityToRepresentation(saved);
@@ -53,6 +59,8 @@ public class GroupResource {
 
     @GetMapping("/{id}")
     public GroupRepresentation getGroup(@PathVariable("id") String id) {
+        log.debug("fetching group '{}'", id);
+
         return repository.findById(id)
                 .map(GroupResource::entityToRepresentation)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND.value(), null, null));
@@ -60,15 +68,24 @@ public class GroupResource {
 
     @PutMapping("/{id}")
     public GroupRepresentation putGroup(@PathVariable("id") String id, @RequestBody @Valid @NotNull GroupRepresentation payload) {
-        Group saved = repository.save(representationToEntity(id, payload));
+        log.info("updating group '{}'", id);
 
-        return entityToRepresentation(saved);
+        Optional<Group> group = repository.findById(id);
+        group.ifPresent(g -> g.setName(payload.getName()));
+
+        return group.map(GroupResource::entityToRepresentation)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND.value(), null, null));
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteGroup(@PathVariable("id") String id) {
-        repository.deleteById(id);
+    public GroupRepresentation deleteGroup(@PathVariable("id") String id) {
+        log.info("deleting group '{}'", id);
+
+        var group = repository.findById(id);
+        group.ifPresent(repository::delete);
+
+        return group.map(GroupResource::entityToRepresentation)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND.value(), null, null));
     }
 
     private static Group representationToEntity(String id, GroupRepresentation representation) {

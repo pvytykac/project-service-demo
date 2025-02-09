@@ -4,6 +4,7 @@ import net.pvytykac.db.Group;
 import net.pvytykac.db.Project;
 import net.pvytykac.db.Status;
 import net.pvytykac.db.StatusOverride;
+import net.pvytykac.service.EntityDoesNotExistException;
 import net.pvytykac.service.ProjectService;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -22,11 +23,13 @@ import java.util.UUID;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -92,7 +95,35 @@ public class ProjectResourceTest {
 
         mvc.perform(post("/v1/projects").contentType(MediaType.APPLICATION_JSON).content(getRawProjectJson().toString()))
                 .andExpect(status().isConflict())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.error", equalTo("unique constraint violation")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error", equalTo("unique constraint violation: 'mock exception'")));
+    }
+
+    @Test
+    void putProject_ProjectNotFound() throws Exception {
+        when(service.updateProject(eq(PROJECT_ID), any())).thenReturn(Optional.empty());
+
+        mvc.perform(put("/v1/projects/" + PROJECT_ID).contentType(MediaType.APPLICATION_JSON)
+                .content(getRawProjectJson().toString()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void putProject_GroupNotFound() throws Exception {
+        doThrow(new EntityDoesNotExistException("group", "id")).when(service).updateProject(eq(PROJECT_ID), any());
+
+        mvc.perform(put("/v1/projects/" + PROJECT_ID).contentType(MediaType.APPLICATION_JSON)
+                .content(getRawProjectJson().toString()))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void putProject_Ok() throws Exception {
+        when(service.updateProject(eq(PROJECT_ID), any())).thenReturn(Optional.of(PROJECT_OBJECT));
+
+        mvc.perform(put("/v1/projects/" + PROJECT_ID).contentType(MediaType.APPLICATION_JSON)
+                .content(getRawProjectJson().toString()))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id", equalTo(PROJECT_ID)));
     }
 
     @Test
