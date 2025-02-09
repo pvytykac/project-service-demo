@@ -23,6 +23,7 @@ import java.util.Optional;
  * @author Paly
  * @since 2025-02-09
  */
+//todo: detach dbo's before returning - as they are not immutable anymore :.(
 @Slf4j
 @Service
 @Transactional

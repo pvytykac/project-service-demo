@@ -13,7 +13,6 @@ import org.testcontainers.utility.DockerImageName;
 import javax.sql.DataSource;
 import java.io.IOException;
 
-//todo: fix the random connection issues when running the whole test suite
 @Profile("test")
 @Configuration
 @EnableJpaRepositories(basePackages = {"net.pvytykac.db"})

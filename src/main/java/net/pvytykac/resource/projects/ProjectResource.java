@@ -27,7 +27,6 @@ import java.util.Optional;
  * @author Paly
  * @since 2025-02-07
  */
-//todo: dump individual validation errors into the response body
 @RestController
 @RequestMapping("/v1/projects")
 public class ProjectResource {
