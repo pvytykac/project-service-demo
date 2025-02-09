@@ -33,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @author Paly
  * @since 2025-02-07
  */
-//todo: add coverage
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ProjectResourceTest {
@@ -87,16 +86,13 @@ public class ProjectResourceTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id", equalTo(PROJECT_ID)));
     }
 
-
-    //todo: add exception handler for org.springframework.dao.DataIntegrityViolationException -> 409 Conflict
     @Test
     void postProject_Conflict() throws Exception {
         doThrow(new DataIntegrityViolationException("mock exception")).when(service).createProject(any());
 
-        when(service.createProject(any())).thenReturn(PROJECT_OBJECT);
-
         mvc.perform(post("/v1/projects").contentType(MediaType.APPLICATION_JSON).content(getRawProjectJson().toString()))
-                .andExpect(status().isConflict());
+                .andExpect(status().isConflict())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.error", equalTo("unique constraint violation")));
     }
 
     @Test
