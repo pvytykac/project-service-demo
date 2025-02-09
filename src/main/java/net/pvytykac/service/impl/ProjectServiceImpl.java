@@ -70,7 +70,7 @@ public class ProjectServiceImpl implements ProjectService {
                 .flatMap(groupRepository::findById);
         attachedGroup.ifPresent(g -> g.setName(group.getName()));
 
-        groupRepository.save(attachedGroup.orElse(group));
+        project.setGroup(groupRepository.save(attachedGroup.orElse(group)));
         return projectRepository.save(project);
     }
 
@@ -119,6 +119,7 @@ public class ProjectServiceImpl implements ProjectService {
             var groupId = representation.getId();
             result = groupRepository.findById(groupId)
                     .orElseThrow(() -> new EntityDoesNotExistException("group", groupId));
+            result.setName(representation.getName());
         } else if (representation.getId() != null) {
             group.setName(representation.getName());
             result = group;
