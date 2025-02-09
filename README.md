@@ -1,6 +1,6 @@
 A small demo project to (hopefully) showcase that I can still code after taking a break
 
-In hindsight, I wish I had rolled with mongodb over postgres as I found JPA even more cumbersome than the last time I worked with it (13y ago lol), but at least I am enjoying the newly found love for mongodb right now
+In hindsight, I wish I had rolled with mongodb over postgres as I found JPA even more cumbersome than the last time I worked with it 13y ago, I have no idea how to work with it and be happy with the resulting code but at least I am enjoying the newly found love for mongodb right now
 
 The project consists of a project microservice with 3 resources
 * groups - `/v1/groups` - simple crud resource
@@ -37,7 +37,7 @@ Prerequisites:
 
 Postgres deployment: `kubectl apply .\kube\postgres-deployment.yaml`
 
-Backend deployment: `kubectl apply .\kube\project-service-deployment.yaml`
+Backend deployment: `kubectl apply .\kube\project-service-deployment.yaml` - Hangs on startup currently, after investigating the thread dump, I suspect this to be caused by `@EnableAutoConfiguration`  
 
 Frontend deployment: `kubectl apply .\kube\frontend-deployment.yaml`
 
