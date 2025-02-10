@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import net.pvytykac.db.Project;
 import net.pvytykac.db.StatusOverride;
-import net.pvytykac.resource.GenericListRepresentation;
+import net.pvytykac.resource.GenericCollectionRepresentation;
 import net.pvytykac.resource.groups.representations.GroupRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 import net.pvytykac.service.ProjectService;
@@ -39,8 +39,8 @@ public class ProjectResource {
     }
 
     @GetMapping
-    public GenericListRepresentation<ProjectRepresentation> listProjects() {
-        return new GenericListRepresentation<>(service.listProjects().stream()
+    public GenericCollectionRepresentation<ProjectRepresentation> listProjects() {
+        return new GenericCollectionRepresentation<>(service.listProjects().stream()
                 .map(ProjectResource::entityToRepresentation)
                 .toList());
     }

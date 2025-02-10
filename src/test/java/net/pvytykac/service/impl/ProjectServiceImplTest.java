@@ -11,7 +11,6 @@ import net.pvytykac.resource.groups.representations.GroupRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 import net.pvytykac.service.EntityDoesNotExistException;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -28,16 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED;
 
 /**
  * @author Paly
  * @since 2025-02-09
  */
-//todo: add coverage
 @DataJpaTest
-@ExtendWith(EmbeddedPostgresConfiguration.EmbeddedPostgresExtension.class)
-@AutoConfigureTestDatabase(replace = NONE)
+@AutoConfigureTestDatabase(replace = AUTO_CONFIGURED)
 @ContextConfiguration(classes = EmbeddedPostgresConfiguration.class)
 @ComponentScan(basePackages = "net.pvytykac")
 public class ProjectServiceImplTest {

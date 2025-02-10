@@ -1,8 +1,6 @@
 package net.pvytykac;
 
 import com.opentable.db.postgres.embedded.EmbeddedPostgres;
-import org.junit.jupiter.api.extension.AfterAllCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,24 +17,13 @@ import java.io.IOException;
 @EntityScan(basePackages = {"net.pvytykac.db"})
 public class EmbeddedPostgresConfiguration {
 
-    private static EmbeddedPostgres embeddedPostgres;
-
     @Bean
     public DataSource dataSource() throws IOException {
-        embeddedPostgres = EmbeddedPostgres.builder()
-          .setImage(DockerImageName.parse("postgres:17.2"))
-          .start();
-
-        return embeddedPostgres.getPostgresDatabase();
+        //todo: find a way to close this after the entire test suite finishes - hopefully nothing's leaking
+        return EmbeddedPostgres.builder()
+            .setImage(DockerImageName.parse("postgres:17.2"))
+            .start()
+            .getPostgresDatabase();
     }
 
-    public static class EmbeddedPostgresExtension implements AfterAllCallback {
-        @Override
-        public void afterAll(ExtensionContext context) throws Exception {
-            if (embeddedPostgres == null) {
-                return;
-            }
-            embeddedPostgres.close();
-        }
-    }
 }

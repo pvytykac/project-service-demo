@@ -236,6 +236,62 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Status Change Subscriptions",
+			"item": [
+				{
+					"name": "/v1/me/status-change-subscriptions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{backend-port}}/v1/me/status-change-subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{backend-port}}",
+							"path": [
+								"v1",
+								"me",
+								"status-change-subscriptions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/me/status-change-subscriptions",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscribeTo\": [\"3ef771b2-d3be-4e58-b5a8-d2f9bec6e7d2\"],\r\n    \"unsubscribeFrom\": [\"5c3c2e46-ff28-4614-95dc-85f49e32ff18\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{backend-port}}/v1/me/status-change-subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{backend-port}}",
+							"path": [
+								"v1",
+								"me",
+								"status-change-subscriptions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

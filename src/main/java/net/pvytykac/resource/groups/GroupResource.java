@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import net.pvytykac.db.Group;
 import net.pvytykac.db.repo.GroupRepository;
-import net.pvytykac.resource.GenericListRepresentation;
+import net.pvytykac.resource.GenericCollectionRepresentation;
 import net.pvytykac.resource.groups.representations.GroupRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,10 +39,10 @@ public class GroupResource {
     }
 
     @GetMapping
-    public GenericListRepresentation<GroupRepresentation> listGroups() {
+    public GenericCollectionRepresentation<GroupRepresentation> listGroups() {
         log.debug("listing groups");
 
-        return new GenericListRepresentation<>(repository.findAll().stream()
+        return new GenericCollectionRepresentation<>(repository.findAll().stream()
                 .map(GroupResource::entityToRepresentation)
                 .toList());
     }
