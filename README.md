@@ -5,7 +5,7 @@ In hindsight, I wish I had rolled with mongodb (which I have way more experience
 The project consists of a project microservice with 3 resources
 * groups - `/v1/groups` - simple crud resource
 * projects - `/v1/projects` - slightly more involved resource leveraging cascade inserts/updates/deletes on multiple tables
-* (ToBeImplemented) notification-subscriptions - `/v1/notification-subscriptions` - configuration of subscriptions to project status changes
+* notification-subscriptions - `/v1/notification-subscriptions` - configuration of subscriptions to project status changes
 
 The APIs mimic status monitoring, where users can override the status of individual projects and subscribe to status change notifications
 
