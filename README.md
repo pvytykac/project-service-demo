@@ -9,7 +9,7 @@ The project consists of a project microservice with 3 resources
 
 The APIs mimic status monitoring, where users can override the status of individual projects and subscribe to status change notifications
 
-(ToBeImplemented) Angular frontend
+Angular frontend - https://github.com/pvytykac/project-service-frontend
 
 (ToBeImplemented) Another microservice serving as the authentication/authorization server
 
