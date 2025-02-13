@@ -8,7 +8,6 @@ import net.pvytykac.db.Status;
 import net.pvytykac.db.StatusOverride;
 import net.pvytykac.db.repo.GroupRepository;
 import net.pvytykac.db.repo.ProjectRepository;
-import net.pvytykac.resource.groups.representations.GroupRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 import net.pvytykac.service.EntityDoesNotExistException;
 import net.pvytykac.service.ProjectService;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,38 +37,27 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> listProjects() {
+    public List<Project> listProjects(String groupId) {
         log.debug("listing projects");
 
-        return projectRepository.findAll();
+        return projectRepository.findByGroupId(groupId);
     }
 
     @Override
     public Project createProject(ProjectRepresentation representation) {
         log.info("creating new project '{}'", representation.getName());
 
-        var group = Group.builder()
-                .id(representation.getGroup().getId())
-                .name(representation.getGroup().getName())
-                .build();
-
         var project = Project.builder()
                 .name(representation.getName())
-                .status(representation.getReportedStatus())
-                .group(group)
-                .statusOverride(Optional.ofNullable(representation.getStatusOverride())
+                .status(representation.getStatus().getReportedStatus())
+                .group(getGroupOrThrow(representation.getGroupId()))
+                .statusOverride(Optional.ofNullable(representation.getStatus().getOverriddenStatus())
                         .map(override -> StatusOverride.builder()
                                 .status(override)
                                 .build())
                         .orElse(null))
                 .build();
 
-
-        var attachedGroup = Optional.ofNullable(group.getId())
-                .flatMap(groupRepository::findById);
-        attachedGroup.ifPresent(g -> g.setName(group.getName()));
-
-        project.setGroup(groupRepository.save(attachedGroup.orElse(group)));
         return projectRepository.save(project);
     }
 
@@ -95,9 +82,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     private Project updateProjectFields(Project project, ProjectRepresentation representation) {
         project.setName(representation.getName());
-        project.setStatus(representation.getReportedStatus());
-        project.setStatusOverride(updateStatusOverride(project.getStatusOverride(), representation.getStatusOverride()));
-        project.setGroup(updateGroup(project.getGroup(), representation.getGroup()));
+        project.setStatus(representation.getStatus().getReportedStatus());
+        project.setStatusOverride(updateStatusOverride(project.getStatusOverride(), representation.getStatus().getOverriddenStatus()));
+        project.setGroup(getGroupOrThrow(representation.getGroupId()));
 
         return project;
     }
@@ -107,28 +94,15 @@ public class ProjectServiceImpl implements ProjectService {
             return null;
         }
 
-        var statusOverride = Optional.ofNullable(override).orElse(new StatusOverride());
+        var statusOverride = Optional.ofNullable(override)
+                .orElse(new StatusOverride());
         statusOverride.setStatus(status);
 
         return statusOverride;
     }
 
-    private Group updateGroup(Group group, GroupRepresentation representation) {
-        Group result;
-        if (representation.getId() != null && !Objects.equals(representation.getId(), group.getId())) {
-            var groupId = representation.getId();
-            result = groupRepository.findById(groupId)
-                    .orElseThrow(() -> new EntityDoesNotExistException("group", groupId));
-            result.setName(representation.getName());
-        } else if (representation.getId() != null) {
-            group.setName(representation.getName());
-            result = group;
-        } else {
-            result = groupRepository.save(Group.builder()
-                    .name(representation.getName())
-                    .build());
-        }
-
-        return result;
+    private Group getGroupOrThrow(String groupId) {
+        return groupRepository.findById(groupId)
+                .orElseThrow(() -> new EntityDoesNotExistException("group", groupId));
     }
 }

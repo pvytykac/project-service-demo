@@ -42,9 +42,10 @@ public class StatusChangeSubscriptionServiceImpl implements StatusChangeSubscrip
 
     @Override
     public Set<String> updateSubscriptions(Set<String> unsubscribeFrom, Set<String> subscribeTo) {
-        log.info("unsubscribing from projects '{}' abd subscribing to projects '{}'", unsubscribeFrom, subscribeTo);
+        log.info("unsubscribing from projects '{}' and subscribing to projects '{}'", unsubscribeFrom, subscribeTo);
 
         statusChangeSubscriptionRepository.deleteByProjectIds(unsubscribeFrom);
+        statusChangeSubscriptionRepository.flush();
 
         var existingSubscriptions = statusChangeSubscriptionRepository.findSubscribedProjectIds(subscribeTo);
         var projectIdsToInsert = subscribeTo.stream()

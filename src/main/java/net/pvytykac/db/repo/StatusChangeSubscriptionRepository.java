@@ -16,7 +16,7 @@ public interface StatusChangeSubscriptionRepository extends JpaRepository<Status
     @Query("select s.project.id from StatusChangeSubscription s")
     Set<String> findAllSubscribedProjectIds();
 
-    @Query("select s.project.id from StatusChangeSubscription s where s.project.id IN ?1")
+    @Query("select s.project.id from StatusChangeSubscription s where s.project.id in ?1")
     Set<String> findSubscribedProjectIds(Set<String> projectIds);
 
     @Modifying

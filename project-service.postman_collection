@@ -57,7 +57,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Group A\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Group E\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -141,7 +141,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:{{backend-port}}/v1/projects",
+							"raw": "http://localhost:{{backend-port}}/v1/projects?groupId=e69c5601-2c79-4fbe-8559-389ff0c374b3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -150,6 +150,12 @@
 							"path": [
 								"v1",
 								"projects"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": "e69c5601-2c79-4fbe-8559-389ff0c374b3"
+								}
 							]
 						}
 					},
@@ -162,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project A\",\r\n    \"reportedStatus\": \"WARN\",\r\n    \"group\": {\r\n        \"name\": \"Group A\"\r\n    },\r\n    \"statusOverride\": \"OK\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Project B\",\r\n    \"groupId\": \"e69c5601-2c79-4fbe-8559-389ff0c374b3\",\r\n    \"status\": {\r\n        \"reportedStatus\": \"ERROR\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -191,7 +197,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project A\",\r\n    \"group\": {\r\n        \"id\": \"b9cf131b-4348-4c0c-9b0e-839ee8321b3c\",\r\n        \"name\": \"Group A\"\r\n    },\r\n    \"reportedStatus\": \"WARN\",\r\n    \"statusOverride\": \"OK\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Project A - 1\",\r\n    \"groupId\": \"e69c5601-2c79-4fbe-8559-389ff0c374b3\",\r\n    \"status\": {\r\n        \"reportedStatus\": \"ERROR\",\r\n        \"overriddenStatus\": \"OK\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -199,7 +205,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:{{backend-port}}/v1/projects/ab0b3762-6d31-496e-b715-9eb9ad1bb5de",
+							"raw": "http://localhost:{{backend-port}}/v1/projects/736faeb8-a055-4a9b-afda-fb770f775d8c",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -208,7 +214,7 @@
 							"path": [
 								"v1",
 								"projects",
-								"ab0b3762-6d31-496e-b715-9eb9ad1bb5de"
+								"736faeb8-a055-4a9b-afda-fb770f775d8c"
 							]
 						}
 					},

@@ -5,9 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import net.pvytykac.db.Project;
 import net.pvytykac.db.StatusOverride;
 import net.pvytykac.resource.GenericCollectionRepresentation;
-import net.pvytykac.resource.groups.representations.GroupRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
+import net.pvytykac.resource.projects.representations.StatusRepresentation;
 import net.pvytykac.service.ProjectService;
+import org.hibernate.validator.constraints.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,8 +40,8 @@ public class ProjectResource {
     }
 
     @GetMapping
-    public GenericCollectionRepresentation<ProjectRepresentation> listProjects() {
-        return new GenericCollectionRepresentation<>(service.listProjects().stream()
+    public GenericCollectionRepresentation<ProjectRepresentation> listProjects(@NotNull @UUID String groupId) {
+        return new GenericCollectionRepresentation<>(service.listProjects(groupId).stream()
                 .map(ProjectResource::entityToRepresentation)
                 .toList());
     }
@@ -70,12 +71,13 @@ public class ProjectResource {
         return ProjectRepresentation.builder()
                 .id(project.getId())
                 .name(project.getName())
-                .group(GroupRepresentation.builder()
-                        .id(project.getGroup().getId())
-                        .name(project.getGroup().getName())
+                .groupId(project.getGroup().getId())
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(project.getStatus())
+                        .overriddenStatus(Optional.ofNullable(project.getStatusOverride())
+                                .map(StatusOverride::getStatus)
+                                .orElse(null))
                         .build())
-                .reportedStatus(project.getStatus())
-                .statusOverride(Optional.ofNullable(project.getStatusOverride()).map(StatusOverride::getStatus).orElse(null))
                 .build();
     }
 }

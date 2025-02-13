@@ -40,13 +40,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ProjectResourceTest {
 
+    private static final String GROUP_ID = UUID.randomUUID().toString();
     private static final String PROJECT_ID = UUID.randomUUID().toString();
     private static final Project PROJECT_OBJECT = Project.builder()
             .id(PROJECT_ID)
             .name("Project A")
             .status(Status.OK)
             .group(Group.builder()
-                    .id(UUID.randomUUID().toString())
+                    .id(GROUP_ID)
                     .name("Group A")
                     .build())
             .statusOverride(StatusOverride.builder()
@@ -66,18 +67,22 @@ public class ProjectResourceTest {
     }
 
     @Test
-    void listProjects() throws Exception {
-        when(service.listProjects()).thenReturn(ImmutableList.of(PROJECT_OBJECT));
-
+    void listProjects_NoGroupId() throws Exception {
         mvc.perform(get("/v1/projects").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void listProjects_SomeOverride() throws Exception {
+        when(service.listProjects(GROUP_ID)).thenReturn(ImmutableList.of(PROJECT_OBJECT));
+
+        mvc.perform(get("/v1/projects?groupId=" + GROUP_ID).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].id", equalTo(PROJECT_ID)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].name", equalTo(PROJECT_OBJECT.getName())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].reportedStatus", equalTo(PROJECT_OBJECT.getStatus().toString())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].effectiveStatus", equalTo(PROJECT_OBJECT.getStatusOverride().getStatus().toString())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].statusOverride", equalTo(PROJECT_OBJECT.getStatusOverride().getStatus().toString())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].group.id", equalTo(PROJECT_OBJECT.getGroup().getId())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].group.name", equalTo(PROJECT_OBJECT.getGroup().getName())));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].groupId", equalTo(PROJECT_OBJECT.getGroup().getId())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].status.reportedStatus", equalTo(PROJECT_OBJECT.getStatus().toString())))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items[0].status.overriddenStatus", equalTo(PROJECT_OBJECT.getStatusOverride().getStatus().toString())));
     }
 
     @Test
@@ -148,10 +153,9 @@ public class ProjectResourceTest {
         return new JSONObject()
                 .put("id", PROJECT_ID)
                 .put("name", PROJECT_OBJECT.getName())
-                .put("reportedStatus", PROJECT_OBJECT.getStatus().toString())
-                .put("statusOverride", PROJECT_OBJECT.getStatusOverride().getStatus().toString())
-                .put("group", new JSONObject()
-                        .put("id", PROJECT_OBJECT.getGroup().getId())
-                        .put("name", PROJECT_OBJECT.getName()));
+                .put("groupId", PROJECT_OBJECT.getGroup().getId())
+                .put("status", new JSONObject()
+                        .put("reportedStatus", PROJECT_OBJECT.getStatus().toString())
+                        .put("overriddenStatus", PROJECT_OBJECT.getStatusOverride().getStatus().toString()));
     }
 }

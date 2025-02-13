@@ -62,8 +62,8 @@ class StatusChangeSubscriptionServiceImplTest {
 
         givenStatusChangeSubscriptionForProject(projectIdA);
         givenStatusChangeSubscriptionForProject(projectIdC);
+        statusChangeSubscriptionRepository.flush();
 
-        //todo: flaky - sometimes fails due to the subscription unique constraint
         var result = service.updateSubscriptions(Set.of(projectIdA, projectIdB), Set.of(projectIdC, projectIdD));
 
         assertEquals(Set.of(projectIdC, projectIdD), result);
@@ -71,15 +71,15 @@ class StatusChangeSubscriptionServiceImplTest {
 
     private void givenStatusChangeSubscriptionForProject(String projectId) {
         var statusChangeSubscription = new StatusChangeSubscription(null, projectRepository.findById(projectId).get());
-        statusChangeSubscriptionRepository.save(statusChangeSubscription)
+        statusChangeSubscriptionRepository.saveAndFlush(statusChangeSubscription)
                 .getId();
     }
 
     private String givenProject(String name) {
         var group = groupRepository.findByName("group")
-                .orElseGet(() -> groupRepository.save(new Group(null, "group")));
+                .orElseGet(() -> groupRepository.saveAndFlush(new Group(null, "group")));
 
-        return projectRepository.save(new Project(null, name, Status.OK, group, null))
+        return projectRepository.saveAndFlush(new Project(null, name, Status.OK, group, null))
                 .getId();
     }
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
  */
 public interface ProjectService {
 
-    List<Project> listProjects();
+    List<Project> listProjects(String groupId);
     Project createProject(ProjectRepresentation project);
     Optional<Project> updateProject(String id, ProjectRepresentation project);
     Optional<Project> deleteProject(String id);

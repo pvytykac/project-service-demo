@@ -7,8 +7,8 @@ import net.pvytykac.db.Status;
 import net.pvytykac.db.StatusOverride;
 import net.pvytykac.db.repo.GroupRepository;
 import net.pvytykac.db.repo.ProjectRepository;
-import net.pvytykac.resource.groups.representations.GroupRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
+import net.pvytykac.resource.projects.representations.StatusRepresentation;
 import net.pvytykac.service.EntityDoesNotExistException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -52,66 +51,138 @@ public class ProjectServiceImplTest {
     }
 
     @Test
-    void createNew_WithOverride_NewGroupCreated() {
-        var representation = ProjectRepresentation.builder()
-                .name("Project A")
-                .reportedStatus(Status.OK)
-                .group(GroupRepresentation.builder().name("Group A").build())
-                .statusOverride(Status.ERROR)
-                .build();
+    void listProjects() {
+        var group = givenGroup();
+        var project = givenProjectInGroup(group);
 
-        var project = service.createProject(representation);
-
-        assertNotNull(project.getId());
-        assertEquals(representation.getName(), project.getName());
-        assertEquals(representation.getReportedStatus(), project.getStatus());
-
-        assertNotNull(project.getGroup().getId());
-        assertEquals(representation.getGroup().getName(), project.getGroup().getName());
-
-        assertNotNull(project.getStatusOverride().getId());
-        assertEquals(representation.getStatusOverride(), project.getStatusOverride().getStatus());
+        assertEquals(List.of(project), service.listProjects(group.getId()));
+        assertEquals(List.of(), service.listProjects("non-existent-id"));
     }
 
     @Test
-    void createNew_NoOverride_ExistingGroupUpdated() {
+    void createNew_GroupNotExists() {
+        var representation = ProjectRepresentation.builder()
+                .name("Project A")
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(Status.OK)
+                        .build())
+                .groupId(UUID.randomUUID().toString())
+                .build();
+
+        assertThrows(EntityDoesNotExistException.class, () -> service.createProject(representation));
+    }
+
+    @Test
+    void createNew_ExistingGroup() {
         var group = givenGroup();
 
         var representation = ProjectRepresentation.builder()
                 .name("Project A")
-                .reportedStatus(Status.OK)
-                .group(GroupRepresentation.builder().id(group.getId()).name("new-name").build())
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(Status.OK)
+                        .overriddenStatus(Status.ERROR)
+                        .build())
+                .groupId(group.getId())
                 .build();
 
         var project = service.createProject(representation);
 
         assertNotNull(project.getId());
         assertEquals(representation.getName(), project.getName());
-        assertEquals(representation.getReportedStatus(), project.getStatus());
+        assertEquals(representation.getStatus().getReportedStatus(), project.getStatus());
+
+        assertNotNull(project.getStatusOverride());
+        assertEquals(representation.getStatus().getOverriddenStatus(), project.getStatusOverride().getStatus());
 
         assertEquals(group.getId(), project.getGroup().getId());
-        assertEquals(representation.getGroup().getName(), project.getGroup().getName());
-
-        assertNull(project.getStatusOverride());
     }
 
-    //todo: why doesn't this work ? embedded postgres not honoring unique constraints ?
-//    @Test
-//    void createNew_GroupNameClash() {
-//        var group = givenGroup();
-//
-//        var representation = ProjectRepresentation.builder()
-//                .name("Project A")
-//                .reportedStatus(Status.OK)
-//                .group(GroupRepresentation.builder().name(group.getName()).build())
-//                .build();
-//
-//        assertThrows(DataIntegrityViolationException.class, () -> service.createProject(representation));
-//    }
+    @Test
+    void update_ExistingGroup_NullToSomeOverride() {
+        var oldGroup = givenGroup();
+        var newGroup = givenGroup();
+        var project = givenProjectInGroup(oldGroup);
+
+        var representation = ProjectRepresentation.builder()
+                .name("new-name")
+                .groupId(newGroup.getId())
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(Status.WARN)
+                        .overriddenStatus(Status.ERROR)
+                        .build())
+                .build();
+
+        var updated = service.updateProject(project.getId(), representation);
+
+        assertTrue(updated.isPresent());
+        assertEquals(project.getId(), updated.get().getId());
+        assertEquals(representation.getName(), updated.get().getName());
+        assertEquals(representation.getStatus().getReportedStatus(), updated.get().getStatus());
+
+        assertNotNull(updated.get().getStatusOverride());
+        assertNotNull(representation.getStatus().getOverriddenStatus(), updated.get().getStatusOverride().getId());
+        assertEquals(representation.getStatus().getOverriddenStatus(), updated.get().getStatusOverride().getStatus());
+    }
 
     @Test
-    void listProjects_Empty() {
-        assertEquals(List.of(), service.listProjects());
+    void update_SomeToNullOverride() {
+        var group = givenGroup();
+        var project = givenProjectWithStatusOverrideInGroup(group, Status.ERROR);
+
+        var representation = ProjectRepresentation.builder()
+                .name(project.getName())
+                .groupId(group.getId())
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(project.getStatus())
+                        .build())
+                .build();
+
+        var updated = service.updateProject(project.getId(), representation);
+
+        assertTrue(updated.isPresent());
+        assertEquals(project.getId(), updated.get().getId());
+        assertNull(updated.get().getStatusOverride());
+    }
+
+    @Test
+    void update_SomeToAnotherOverride() {
+        var group = givenGroup();
+        var project = givenProjectWithStatusOverrideInGroup(group, Status.ERROR);
+        var statusOverrideId = project.getStatusOverride().getId();
+
+        var representation = ProjectRepresentation.builder()
+                .name(project.getName())
+                .groupId(group.getId())
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(project.getStatus())
+                        .overriddenStatus(Status.OK)
+                        .build())
+                .build();
+
+        var updated = service.updateProject(project.getId(), representation);
+
+        assertTrue(updated.isPresent());
+        assertEquals(project.getId(), updated.get().getId());
+        assertNotNull(updated.get().getStatusOverride());
+
+        assertEquals(statusOverrideId, updated.get().getStatusOverride().getId());
+        assertEquals(representation.getStatus().getOverriddenStatus(), updated.get().getStatusOverride().getStatus());
+    }
+
+    @Test
+    void update_NonExistentGroup() {
+        var group = givenGroup();
+        var project = givenProjectInGroup(group);
+
+        var representation = ProjectRepresentation.builder()
+                .name(project.getName())
+                .groupId(UUID.randomUUID().toString())
+                .status(StatusRepresentation.builder()
+                        .reportedStatus(project.getStatus())
+                        .build())
+                .build();
+
+        assertThrows(EntityDoesNotExistException.class, () -> service.updateProject(project.getId(), representation));
     }
 
     @Test
@@ -127,97 +198,6 @@ public class ProjectServiceImplTest {
         assertEquals(Optional.of(project), service.deleteProject(project.getId()));
 
         assertEquals(Optional.empty(), projectRepository.findById(project.getId()));
-    }
-
-    @Test
-    void updateProject_Existing_NameStatusGroupNameAndOverride() {
-        var group = givenGroup();
-        var project = givenProjectInGroup(group);
-        var representation = ProjectRepresentation.builder()
-                .name("edited project")
-                .reportedStatus(Status.ERROR)
-                .group(new GroupRepresentation(group.getId(), "edited group"))
-                .statusOverride(Status.WARN)
-                .build();
-
-        var updated = service.updateProject(project.getId(), representation);
-
-        assertTrue(updated.isPresent());
-        assertEquals(project.getId(), updated.get().getId());
-        assertEquals(representation.getName(), updated.get().getName());
-        assertEquals(representation.getReportedStatus(), updated.get().getStatus());
-
-        assertEquals(representation.getGroup().getId(), updated.get().getGroup().getId());
-        assertEquals(representation.getGroup().getName(), updated.get().getGroup().getName());
-
-        assertNotNull(updated.get().getStatusOverride());
-        assertNotNull(updated.get().getStatusOverride().getId());
-        assertEquals(representation.getStatusOverride(), updated.get().getStatusOverride().getStatus());
-    }
-
-    @Test
-    void updateProject_Existing_GroupReassignedToNonExistentOne() {
-        var group = givenGroup();
-        var project = givenProjectInGroup(group);
-        var representation = ProjectRepresentation.builder()
-                .name(project.getName())
-                .reportedStatus(project.getStatus())
-                .group(new GroupRepresentation(UUID.randomUUID().toString(), "non-existent group"))
-                .build();
-
-        assertThrows(EntityDoesNotExistException.class, () -> service.updateProject(project.getId(), representation));
-    }
-
-    @Test
-    void updateProject_Existing_GroupReassignedAndRenamed_StatusOverrideChanged() {
-        var oldGroup = givenGroupWithName("old");
-        var newGroup = givenGroupWithName("new");
-        var project = givenProjectWithStatusOverrideInGroup(oldGroup, Status.WARN);
-
-        var representation = ProjectRepresentation.builder()
-                .name(project.getName())
-                .reportedStatus(project.getStatus())
-                .group(new GroupRepresentation(newGroup.getId(), "new edited"))
-                .statusOverride(Status.ERROR)
-                .build();
-
-        var updated = service.updateProject(project.getId(), representation);
-
-        assertTrue(updated.isPresent());
-        assertEquals(project.getId(), updated.get().getId());
-        assertEquals(representation.getName(), updated.get().getName());
-        assertEquals(representation.getReportedStatus(), updated.get().getStatus());
-
-        assertEquals(representation.getGroup().getId(), updated.get().getGroup().getId());
-        assertEquals(representation.getGroup().getName(), updated.get().getGroup().getName());
-
-        assertNotNull(updated.get().getStatusOverride());
-        assertEquals(project.getStatusOverride().getId(), updated.get().getStatusOverride().getId());
-        assertEquals(representation.getStatusOverride(), updated.get().getStatusOverride().getStatus());
-
-        assertEquals("new edited", groupRepository.findById(newGroup.getId()).get().getName());
-        assertEquals("old", groupRepository.findById(oldGroup.getId()).get().getName());
-    }
-
-    @Test
-    void updateProject_Existing_GroupReassignedToNewGroup_OverrideRemoved() {
-        var oldGroup = givenGroupWithName("old");
-        var project = givenProjectWithStatusOverrideInGroup(oldGroup, Status.ERROR);
-
-        var representation = ProjectRepresentation.builder()
-                .name(project.getName())
-                .reportedStatus(project.getStatus())
-                .group(new GroupRepresentation(null, "new"))
-                .build();
-
-        var updated = service.updateProject(project.getId(), representation);
-
-        assertTrue(updated.isPresent());
-        assertNotNull(updated.get().getGroup().getId());
-        assertNotEquals(oldGroup.getId(), updated.get().getGroup().getId());
-        assertEquals(representation.getGroup().getName(), updated.get().getGroup().getName());
-
-        assertNull(updated.get().getStatusOverride());
     }
 
     private Group givenGroup() {
