@@ -1,6 +1,7 @@
 package net.pvytykac.service;
 
 import net.pvytykac.db.Project;
+import net.pvytykac.resource.projects.representations.PatchProjectRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 
 import java.util.List;
@@ -15,5 +16,6 @@ public interface ProjectService {
     List<Project> listProjects(String groupId);
     Project createProject(ProjectRepresentation project);
     Optional<Project> updateProject(String id, ProjectRepresentation project);
+    Optional<Project> updateProject(String id, PatchProjectRepresentation update);
     Optional<Project> deleteProject(String id);
 }

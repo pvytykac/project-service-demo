@@ -7,6 +7,7 @@ import net.pvytykac.db.Status;
 import net.pvytykac.db.StatusOverride;
 import net.pvytykac.db.repo.GroupRepository;
 import net.pvytykac.db.repo.ProjectRepository;
+import net.pvytykac.resource.projects.representations.PatchProjectRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 import net.pvytykac.resource.projects.representations.StatusRepresentation;
 import net.pvytykac.service.EntityDoesNotExistException;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -183,6 +185,65 @@ public class ProjectServiceImplTest {
                 .build();
 
         assertThrows(EntityDoesNotExistException.class, () -> service.updateProject(project.getId(), representation));
+    }
+
+    @Test
+    void patchUpdate_NotFound() {
+        var result = service.updateProject("not-found", PatchProjectRepresentation.builder().build());
+        assertTrue(result.isEmpty());
+    }
+
+    @Test
+    void patchUpdate_Replace() {
+        var group = givenGroup();
+        var project = givenProjectInGroup(group);
+
+        var representation = PatchProjectRepresentation.builder()
+                .op(PatchProjectRepresentation.Op.REPLACE)
+                .path("/status/overriddenStatus")
+                .value("ERROR")
+                .build();
+
+        var result = service.updateProject(project.getId(), representation);
+
+        assertTrue(result.isPresent());
+        assertEquals(project.getName(), result.get().getName());
+        assertEquals(project.getStatus(), result.get().getStatus());
+
+        assertNotNull(result.get().getStatusOverride());
+        assertEquals(Status.ERROR, result.get().getStatusOverride().getStatus());
+    }
+
+    @Test
+    void patchUpdate_Remove() {
+        var group = givenGroup();
+        var project = givenProjectWithStatusOverrideInGroup(group, Status.ERROR);
+
+        var representation = PatchProjectRepresentation.builder()
+                .op(PatchProjectRepresentation.Op.REMOVE)
+                .path("/status/overriddenStatus")
+                .build();
+
+        var result = service.updateProject(project.getId(), representation);
+
+        assertTrue(result.isPresent());
+        assertEquals(project.getName(), result.get().getName());
+        assertEquals(project.getStatus(), result.get().getStatus());
+
+        assertNull(result.get().getStatusOverride());
+    }
+
+    @Test
+    void patchUpdate_UnsupportedPath() {
+        var group = givenGroup();
+        var project = givenProjectWithStatusOverrideInGroup(group, Status.ERROR);
+
+        var representation = PatchProjectRepresentation.builder()
+                .op(PatchProjectRepresentation.Op.REMOVE)
+                .path("/status/reportedStatus")
+                .build();
+
+        assertThrows(ResponseStatusException.class, () -> service.updateProject(project.getId(), representation));
     }
 
     @Test

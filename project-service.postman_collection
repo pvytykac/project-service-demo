@@ -168,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Project B\",\r\n    \"groupId\": \"e69c5601-2c79-4fbe-8559-389ff0c374b3\",\r\n    \"status\": {\r\n        \"reportedStatus\": \"ERROR\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\": \"Project A - 4\",\r\n    \"groupId\": \"e69c5601-2c79-4fbe-8559-389ff0c374b3\",\r\n    \"status\": {\r\n        \"reportedStatus\": \"UNKNOWN\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -198,6 +198,42 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"name\": \"Project A - 1\",\r\n    \"groupId\": \"e69c5601-2c79-4fbe-8559-389ff0c374b3\",\r\n    \"status\": {\r\n        \"reportedStatus\": \"ERROR\",\r\n        \"overriddenStatus\": \"OK\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{backend-port}}/v1/projects/736faeb8-a055-4a9b-afda-fb770f775d8c",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{backend-port}}",
+							"path": [
+								"v1",
+								"projects",
+								"736faeb8-a055-4a9b-afda-fb770f775d8c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/v1/projects/{id}",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json-patch+json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"op\": \"replace\",\r\n    \"path\": \"/status/overriddenStatus\",\r\n    \"value\": \"ERROR\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

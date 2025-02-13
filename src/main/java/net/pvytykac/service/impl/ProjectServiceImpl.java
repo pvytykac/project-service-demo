@@ -8,11 +8,15 @@ import net.pvytykac.db.Status;
 import net.pvytykac.db.StatusOverride;
 import net.pvytykac.db.repo.GroupRepository;
 import net.pvytykac.db.repo.ProjectRepository;
+import net.pvytykac.resource.projects.representations.PatchProjectRepresentation;
 import net.pvytykac.resource.projects.representations.ProjectRepresentation;
 import net.pvytykac.service.EntityDoesNotExistException;
 import net.pvytykac.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -71,6 +75,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public Optional<Project> updateProject(String id, PatchProjectRepresentation update) {
+        log.info("partially updating project '{}' with patch '{}'", id, update);
+
+        return projectRepository.findById(id)
+                .map(project -> applyPatch(project, update))
+                .map(projectRepository::save);
+    }
+
+    @Override
     public Optional<Project> deleteProject(String id) {
         log.info("deleting project '{}'", id);
 
@@ -99,6 +112,24 @@ public class ProjectServiceImpl implements ProjectService {
         statusOverride.setStatus(status);
 
         return statusOverride;
+    }
+
+    private Project applyPatch(Project project, PatchProjectRepresentation patch) {
+        if (patch.getPath().equals("/status/overriddenStatus")) {
+            if (patch.getOp() == PatchProjectRepresentation.Op.REPLACE) {
+                var statusOverride = Optional.ofNullable(project.getStatusOverride())
+                        .orElseGet(StatusOverride::new);
+
+                statusOverride.setStatus(Status.valueOf(patch.getValue().toString()));
+                project.setStatusOverride(statusOverride);
+            } else if (patch.getOp() == PatchProjectRepresentation.Op.REMOVE) {
+                project.setStatusOverride(null);
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST.value(), null, null);
+        }
+
+        return project;
     }
 
     private Group getGroupOrThrow(String groupId) {

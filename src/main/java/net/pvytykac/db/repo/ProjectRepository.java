@@ -16,6 +16,6 @@ public interface ProjectRepository extends JpaRepository<Project, String> {
     @Query("select p from Project p where p.id in ?1")
     Set<Project> findProjectsByIds(Set<String> projectIds);
 
-    @Query("select p from Project p where p.group.id = ?1")
+    @Query("select p from Project p where p.group.id = ?1 order by p.name")
     List<Project> findByGroupId(String groupId);
 }
