@@ -1,3 +1,5 @@
+[![Java CI with Maven](https://github.com/pvytykac/project-service-demo/actions/workflows/maven.yml/badge.svg)](https://github.com/pvytykac/project-service-demo/actions/workflows/maven.yml)
+
 A small demo project to (hopefully) showcase that I can still code after taking a break
 
 In hindsight, I wish I had rolled with mongodb (which I have way more experience with) over JPA+postgres as I found JPA even more cumbersome than the last time I worked with it 13y ago, I have no idea how to work with it and be happy with the resulting code but at least I am enjoying the newly found love for mongodb right now
