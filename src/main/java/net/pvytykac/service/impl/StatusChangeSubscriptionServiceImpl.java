@@ -44,21 +44,25 @@ public class StatusChangeSubscriptionServiceImpl implements StatusChangeSubscrip
     public Set<String> updateSubscriptions(Set<String> unsubscribeFrom, Set<String> subscribeTo) {
         log.info("unsubscribing from projects '{}' and subscribing to projects '{}'", unsubscribeFrom, subscribeTo);
 
-        statusChangeSubscriptionRepository.deleteByProjectIds(unsubscribeFrom);
-        statusChangeSubscriptionRepository.flush();
+        if (unsubscribeFrom != null && !unsubscribeFrom.isEmpty()) {
+            statusChangeSubscriptionRepository.deleteByProjectIds(unsubscribeFrom);
+            statusChangeSubscriptionRepository.flush();
+        }
 
-        var existingSubscriptions = statusChangeSubscriptionRepository.findSubscribedProjectIds(subscribeTo);
-        var projectIdsToInsert = subscribeTo.stream()
-                .dropWhile(existingSubscriptions::contains)
-                .collect(Collectors.toSet());
-        var projectsMap = projectRepository.findProjectsByIds(projectIdsToInsert)
-                .stream().collect(Collectors.toMap(Project::getId, Function.identity()));
+        if (subscribeTo != null && !subscribeTo.isEmpty()) {
+            var existingSubscriptions = statusChangeSubscriptionRepository.findSubscribedProjectIds(subscribeTo);
+            var projectIdsToInsert = subscribeTo.stream()
+                    .filter(projectId -> !existingSubscriptions.contains(projectId))
+                    .collect(Collectors.toSet());
+            var projectsMap = projectRepository.findProjectsByIds(projectIdsToInsert)
+                    .stream().collect(Collectors.toMap(Project::getId, Function.identity()));
 
-        statusChangeSubscriptionRepository.saveAllAndFlush(projectIdsToInsert.stream()
-                .map(projectId -> StatusChangeSubscription.builder()
+            statusChangeSubscriptionRepository.saveAllAndFlush(projectIdsToInsert.stream()
+                    .map(projectId -> StatusChangeSubscription.builder()
                             .project(projectsMap.get(projectId))
                             .build())
-                .collect(Collectors.toSet()));
+                    .collect(Collectors.toSet()));
+        }
 
         return statusChangeSubscriptionRepository.findAllSubscribedProjectIds();
     }

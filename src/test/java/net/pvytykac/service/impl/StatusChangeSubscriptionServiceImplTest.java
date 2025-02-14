@@ -17,6 +17,7 @@ import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Set;
 
+import static java.util.Collections.emptySet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.AUTO_CONFIGURED;
 
@@ -67,6 +68,18 @@ class StatusChangeSubscriptionServiceImplTest {
         var result = service.updateSubscriptions(Set.of(projectIdA, projectIdB), Set.of(projectIdC, projectIdD));
 
         assertEquals(Set.of(projectIdC, projectIdD), result);
+    }
+
+    @Test
+    void updateSubscriptions_EmptyLists() {
+        var result = service.updateSubscriptions(emptySet(), emptySet());
+        assertEquals(emptySet(), result);
+    }
+
+    @Test
+    void updateSubscriptions_NullLists() {
+        var result = service.updateSubscriptions(null, null);
+        assertEquals(emptySet(), result);
     }
 
     private void givenStatusChangeSubscriptionForProject(String projectId) {
