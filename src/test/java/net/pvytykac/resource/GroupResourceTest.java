@@ -15,9 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.blankOrNullString;
+import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -90,7 +89,7 @@ public class GroupResourceTest {
     void postGroup_ValidationErrors() throws Exception {
         mvc.perform(post("/v1/groups").contentType(MediaType.APPLICATION_JSON).content("{}"))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.error", not(blankOrNullString())));
+                .andExpect(jsonPath("$.errors[?(@.field == 'name')].message", equalTo(singletonList("must not be blank"))));
     }
 
     @Test
